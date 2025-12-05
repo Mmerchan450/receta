@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Añadir receta</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+
+<body>
+    <div class="contenedor">
+        <header>
+            <div>
+                <h1>Añadir receta</h1>
+                <p class="subtitulo">Nuevo registro en la colección</p>
+            </div>
+        </header>
+
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="listado">Listado de recetas</a>
+           
+        </nav>
+
+        <div class="card">
+            <form method="post" action="/alta_receta">
+                <div class="fila-form">
+                    <label>Nombre de la receta</label>
+                    <input type="text" name="nombre" required>
+                </div>
+
+                <div class="fila-form">
+                    <label>Ingredientes</label>
+                    <textarea name="ingredientes" placeholder="Ej: Harina, huevos, leche..." required></textarea>
+                </div>
+
+                <div class="fila-form">
+                    <label>Pasos</label>
+                    <textarea name="pasos" placeholder="Ej: Mezclar, hornear, servir..." required></textarea>
+                </div>
+
+                <div class="fila-form">
+                    <label>Tiempo de preparación (minutos)</label>
+                    <input type="number" name="tiempo_preparacion" min="0" value="0" required>
+                </div>
+
+                <div class="fila-form">
+                    <label>Dificultad</label>
+                    <select name="dificultad">
+                        <option value="fácil" selected>Fácil</option>
+                        <option value="media">Media</option>
+                        <option value="difícil">Difícil</option>
+                    </select>
+                </div>
+
+                <div class="botones">
+                    <button type="submit" class="boton boton-primario">Guardar receta</button>
+                    <a href="index.html" class="boton boton-secundario">Cancelar</a>
+                </div>
+            </form>
+        </div>
+</body>
+
+</html>

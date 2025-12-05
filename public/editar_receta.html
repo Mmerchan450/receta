@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Editar receta</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <div class="contenedor">
+    <header>
+      <div>
+        <h1>Editar receta</h1>
+        <p class="subtitulo">Actualiza los datos de una receta</p>
+      </div>
+    </header>
+
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="nueva_receta.html">Añadir receta</a>
+      <a href="listado">Listado de recetas</a>
+      <a href="editar_receta.html">Editar receta</a>
+      <a href="borrar_receta.html">Borrar receta</a>
+    </nav>
+
+    <div class="card">
+      <form method="post" action="/editar_receta">
+        <div class="fila-form">
+          <label>Código de la receta a editar</label>
+          <input type="number" name="codigo" min="1" required>
+        </div>
+
+        <div class="fila-form">
+          <label>Nuevo nombre de la receta</label>
+          <input type="text" name="nombre" required>
+        </div>
+
+        <div class="fila-form">
+          <label>Nuevos ingredientes</label>
+          <textarea name="ingredientes" required></textarea>
+        </div>
+
+        <div class="fila-form">
+          <label>Nuevos pasos</label>
+          <textarea name="pasos" required></textarea>
+        </div>
+
+        <div class="fila-form">
+          <label>Nuevo tiempo de preparación (minutos)</label>
+          <input type="number" name="tiempo_preparacion" min="0" required>
+        </div>
+
+        <div class="fila-form">
+          <label>Nueva dificultad</label>
+          <select name="dificultad">
+            <option value="fácil">Fácil</option>
+            <option value="media">Media</option>
+            <option value="difícil">Difícil</option>
+          </select>
+        </div>
+
+        <div class="botones">
+          <button type="submit" class="boton boton-primario">Guardar cambios</button>
+          <a href="index.html" class="boton boton-secundario">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

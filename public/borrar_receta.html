@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Borrar videojuego</title>
+  <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+  <div class="contenedor">
+    <header>
+      <div>
+        <h1>Borrar receta</h1>
+        <p class="subtitulo">Elimina una receta</p>
+      </div>
+    </header>
+
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="nuevo.html">Añadir receta</a>
+      <a href="listado.html">Listado de recetas</a>
+      <a href="editar.html">Editar receta</a>
+      <a href="borrar.html">Borrar receta</a>
+    </nav>
+
+    <div class="card">
+      <form method="post" action="borrar_receta">
+        <div class="fila-form">
+          <label>Código de la receta a borrar</label>
+          <input type="number" name="codigo" min="1" required>
+        </div>
+
+        <div class="botones">
+          <button type="submit" class="boton boton-primario">Borrar</button>
+          <a href="index.html" class="boton boton-secundario">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
+
