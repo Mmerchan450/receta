@@ -223,7 +223,11 @@ function listadoRecetas(req, res) {
         for (const fila of filas) {
             res.write(`<tr>
 <td>${fila.codigo}</td>
-<td>${escapeHtml(fila.nombre)}</td>
+<td>
+  <a href="detalle?codigo=${fila.codigo}" class="enlace-titulo">
+    ${escapeHtml(fila.nombre)}
+  </a>
+</td>
 <td>${fila.tiempo_preparacion}</td>
 <td>${escapeHtml(fila.dificultad)}</td>
 <td><a href="/editar_receta?codigo=${fila.codigo}" class="boton boton-primario">Editar</a></td>
