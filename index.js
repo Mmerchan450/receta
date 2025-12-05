@@ -1,6 +1,8 @@
 const http = require('node:http')
 const fs = require('node:fs')
 const mysql = require('mysql2')
+const path = require('node:path')
+const { formidable } = require('formidable')
 
 // Configuración MySQL
 const conexion = mysql.createConnection({
@@ -34,18 +36,88 @@ servidor.listen(8888)
 console.log('Servidor web iniciado en http://localhost:8888')
 
 // ---------------- Enrutamiento ----------------
-function encaminar(req, res, camino) {
+function encaminar(pedido, respuesta, camino) {
     switch (camino) {
-        case 'public/nueva_receta.html': return servirArchivo(camino, res)
-        case 'public/editar_receta': return mostrarFormularioEdicion(req, res)
-        case 'public/borrar_receta': return mostrarFormularioBorrado(req, res)
-        case 'public/listado': return listadoRecetas(req, res)
-        case 'public/alta_receta': return altaReceta(req, res)
-        case 'public/editar': return editarReceta(req, res)
-        case 'public/borrar': return borrarReceta(req, res)
-        default: return servirArchivo(camino, res)
+        case 'public/nueva_receta.html': {
+            return servirArchivo(camino, respuesta);
+        }
+
+        case 'public/editar_receta': {
+            if (pedido.method === 'GET') {
+                return mostrarFormularioEdicion(pedido, respuesta);
+            } else {
+                respuesta.writeHead(405, { 'Content-Type': 'text/html; charset=utf-8' });
+                respuesta.end('<h1>Método no permitido</h1>');
+            }
+            break;
+        }
+
+        case 'public/borrar_receta': {
+            if (pedido.method === 'GET') {
+                return mostrarFormularioBorrado(pedido, respuesta);
+            } else {
+                respuesta.writeHead(405, { 'Content-Type': 'text/html; charset=utf-8' });
+                respuesta.end('<h1>Método no permitido</h1>');
+            }
+            break;
+        }
+
+        case 'public/listado': {
+            if (pedido.method === 'GET') {
+                return listadoRecetas(pedido, respuesta);
+            } else {
+                respuesta.writeHead(405, { 'Content-Type': 'text/html; charset=utf-8' });
+                respuesta.end('<h1>Método no permitido</h1>');
+            }
+            break;
+        }
+
+        case 'public/alta_receta': {
+            if (pedido.method === 'POST') {
+                return altaReceta(pedido, respuesta);
+            } else {
+                respuesta.writeHead(405, { 'Content-Type': 'text/html; charset=utf-8' });
+                respuesta.end('<h1>Método no permitido</h1>');
+            }
+            break;
+        }
+
+        case 'public/detalle': {
+            if (pedido.method === 'GET') {
+                return mostrarDetalleReceta(pedido, respuesta);
+            } else {
+                respuesta.writeHead(405, { 'Content-Type': 'text/html; charset=utf-8' });
+                respuesta.end('<h1>Método no permitido</h1>');
+            }
+            break;
+        }
+
+        case 'public/editar': {
+            if (pedido.method === 'POST') {
+                return editarReceta(pedido, respuesta);
+            } else {
+                respuesta.writeHead(405, { 'Content-Type': 'text/html; charset=utf-8' });
+                respuesta.end('<h1>Método no permitido</h1>');
+            }
+            break;
+        }
+
+        case 'public/borrar': {
+            if (pedido.method === 'POST') {
+                return borrarReceta(pedido, respuesta);
+            } else {
+                respuesta.writeHead(405, { 'Content-Type': 'text/html; charset=utf-8' });
+                respuesta.end('<h1>Método no permitido</h1>');
+            }
+            break;
+        }
+
+        default: {
+            return servirArchivo(camino, respuesta);
+        }
     }
 }
+
 
 // ---------------- Archivos estáticos ----------------
 function servirArchivo(camino, res) {
@@ -69,9 +141,7 @@ function servirArchivo(camino, res) {
         }
     })
 }
-
 // ---------------- CRUD ----------------
-
 
 function altaReceta(req, res) {
     let cuerpo = ''
@@ -170,7 +240,6 @@ function listadoRecetas(req, res) {
     })
 }
 
-// Mostrar formulario de edición
 function mostrarFormularioEdicion(req, res) {
     const url = new URL('http://localhost:8888' + req.url)
     const codigo = Number(url.searchParams.get('codigo'))
@@ -247,7 +316,6 @@ function mostrarFormularioEdicion(req, res) {
     })
 }
 
-// Editar receta
 function editarReceta(req, res) {
     let cuerpo = ''
     req.on('data', chunk => cuerpo += chunk.toString())
@@ -277,13 +345,12 @@ function editarReceta(req, res) {
                 return
             }
 
-            res.writeHead(303, { Location: '/listado.html' })
+            res.writeHead(303, { Location: '/listado' })
             res.end()
         })
     })
 }
 
-// Mostrar formulario de borrado
 function mostrarFormularioBorrado(req, res) {
     const url = new URL('http://localhost:8888' + req.url)
     const codigo = Number(url.searchParams.get('codigo'))
@@ -318,7 +385,6 @@ function mostrarFormularioBorrado(req, res) {
 </html>`)
 }
 
-// Borrar receta
 function borrarReceta(req, res) {
     let cuerpo = ''
     req.on('data', chunk => cuerpo += chunk.toString())
@@ -346,7 +412,6 @@ function borrarReceta(req, res) {
     })
 }
 
-// Escapar HTML
 function escapeHtml(texto = '') {
     return texto
         .replace(/&/g, '&amp;')
